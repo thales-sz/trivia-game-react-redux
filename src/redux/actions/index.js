@@ -7,6 +7,18 @@ export const userAction = (userInfo) => ({
   payload: userInfo,
 });
 
+// funçao para requisição do token do usuario
+export async function requestUserToken() {
+  const ENDPOINT = 'https://opentdb.com/api_token.php?command=request';
+  try {
+    const response = await fetch(ENDPOINT);
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 // Actions para pegar a imagem do gravatar
 export const GET_GRAVATAR = 'GET_GRAVATAR';
 
@@ -20,3 +32,4 @@ export const getProfileImageURLAction = (email) => (dispatch) => {
   const url = `https://www.gravatar.com/avatar/${hash}`;
   dispatch(sendProfileImageURL(url));
 };
+
