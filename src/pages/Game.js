@@ -10,10 +10,8 @@ class Game extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  state,
+const mapStateToProps = (globalState) => ({
+  globalState,
 });
 
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
+export default connect(mapStateToProps)(Game);
