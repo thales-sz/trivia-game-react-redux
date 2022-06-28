@@ -1,6 +1,7 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { userAction } from '../redux/actions';
 
 class Login extends Component {
   state = {
@@ -23,42 +24,54 @@ class Login extends Component {
     this.verifyButton();
   }
 
+  handleSubmit = (e) => {
+    const { dispatch, history } = this.props;
+    e.preventDefault();
+    dispatch(userAction(this.state));
+    history.push('/game');
+  }
+
   render() {
+    console.log(this.props);
     const { inputName, inputEmail, isButtonDisabled } = this.state;
     return (
       <section>
-        <input
-          type="text"
-          data-testid="input-player-name"
-          placeholder="Nome"
-          name="inputName"
-          value={ inputName }
-          onChange={ this.handleChange }
-        />
-        <input
-          type="email"
-          data-testid="input-gravatar-email"
-          placeholder="Email"
-          name="inputEmail"
-          value={ inputEmail }
-          onChange={ this.handleChange }
-        />
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ isButtonDisabled }
-        >
-          PLAY
-        </button>
+        <form onSubmit={ this.handleSubmit }>
+          <input
+            type="text"
+            data-testid="input-player-name"
+            placeholder="Nome"
+            name="inputName"
+            value={ inputName }
+            onChange={ this.handleChange }
+          />
+          <input
+            type="email"
+            data-testid="input-gravatar-email"
+            placeholder="Email"
+            name="inputEmail"
+            value={ inputEmail }
+            onChange={ this.handleChange }
+          />
+          <button
+            type="submit"
+            data-testid="btn-play"
+            disabled={ isButtonDisabled }
+          >
+            PLAY
+          </button>
+        </form>
       </section>
     );
   }
 }
 
-const mapStateToProps = (globalState) => ({
-  globalState,
+const mapStateToProps = (state) => ({
+  state,
 });
 
-const mapDispatchToProps = {};
+Login.propTypes = {
+  dispatch: PropTypes.func,
+}.isRequired;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps)(Login);
