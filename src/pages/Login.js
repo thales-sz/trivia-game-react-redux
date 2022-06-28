@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { userAction } from '../redux/actions';
+import { userAction, requestUserToken } from '../redux/actions';
 
 class Login extends Component {
   state = {
@@ -24,15 +24,18 @@ class Login extends Component {
     this.verifyButton();
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = () => {
     const { dispatch, history } = this.props;
-    e.preventDefault();
     dispatch(userAction(this.state));
     history.push('/game');
   }
 
+  handleButtonClick = async () => {
+    const userToken = await requestUserToken();
+    localStorage.setItem('token', userToken.token);
+  }
+
   render() {
-    console.log(this.props);
     const { inputName, inputEmail, isButtonDisabled } = this.state;
     return (
       <section>
@@ -57,6 +60,7 @@ class Login extends Component {
             type="submit"
             data-testid="btn-play"
             disabled={ isButtonDisabled }
+            onClick={ this.handleButtonClick }
           >
             PLAY
           </button>
