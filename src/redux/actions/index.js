@@ -32,4 +32,3 @@ export const getProfileImageURLAction = (email) => (dispatch) => {
   const url = `https://www.gravatar.com/avatar/${hash}`;
   dispatch(sendProfileImageURL(url));
 };
-
