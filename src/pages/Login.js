@@ -32,7 +32,7 @@ class Login extends Component {
 
   handleButtonClick = async () => {
     const userToken = await requestUserToken();
-    localStorage.setItem('token', userToken.token);
+    localStorage.setItem('token', JSON.stringify(userToken));
   }
 
   render() {
