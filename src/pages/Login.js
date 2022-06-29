@@ -24,15 +24,21 @@ class Login extends Component {
     this.verifyButton();
   }
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
     const { dispatch, history } = this.props;
+    e.preventDefault();
     dispatch(userAction(this.state));
     history.push('/game');
   }
 
-  handleButtonClick = async () => {
-    const userToken = await requestUserToken();
-    localStorage.setItem('token', JSON.stringify(userToken));
+  handleButtonClick = async ({ target: { name } }) => {
+    const { history } = this.props;
+    if (name === 'play') {
+      const userToken = await requestUserToken();
+      localStorage.setItem('token', userToken.token);
+    } else {
+      history.push('/settings');
+    }
   }
 
   render() {
@@ -58,11 +64,20 @@ class Login extends Component {
           />
           <button
             type="submit"
+            name="play"
             data-testid="btn-play"
             disabled={ isButtonDisabled }
             onClick={ this.handleButtonClick }
           >
             PLAY
+          </button>
+          <button
+            type="button"
+            name="settings"
+            data-testid="btn-settings"
+            onClick={ this.handleButtonClick }
+          >
+            CONFIGURAÇÕES
           </button>
         </form>
       </section>
