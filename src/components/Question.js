@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import style from './question.module.css';
+import Timer from './Timer';
 
 class Question extends Component {
   state = {
@@ -58,12 +59,14 @@ class Question extends Component {
                 data-testid={ answer === question.correct_answer
                   ? 'correct-answer' : `wrong-answer-${wrongAnswerCounter}` }
                 onClick={ this.handleClick }
+                disabled={ answeredQuestion }
               >
                 {answer}
               </button>
             );
           })}
         </div>
+        <Timer handleTimer={ this.handleClick } answeredQuestion={ answeredQuestion } />
         { answeredQuestion
           ? (
             <button
