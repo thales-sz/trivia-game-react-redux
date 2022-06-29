@@ -27,10 +27,10 @@ class GameHeader extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  email: state.playerReducer.player.gravatarEmail,
-  name: state.playerReducer.player.name,
-  profileImage: state.playerReducer.player.profileImage,
-  score: state.playerReducer.player.score,
+  email: state.player.gravatarEmail,
+  name: state.player.name,
+  profileImage: state.player.profileImage,
+  score: state.player.score,
 });
 
 GameHeader.propTypes = {

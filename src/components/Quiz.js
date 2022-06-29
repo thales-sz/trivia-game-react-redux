@@ -26,20 +26,25 @@ class Quiz extends Component {
   handleClickNextButton = () => {
     const { questionNumber } = this.state;
     this.setState({
+      isLoading: true,
       questionNumber: questionNumber + 1,
+    }, () => {
+      this.setState({
+        isLoading: false,
+      });
     });
   }
 
   render() {
     const { error, questions, questionNumber, isLoading } = this.state;
-    const question = questions[questionNumber];
+    const magic4 = 4;
     return (
       <div>
         { error && <Redirect to="/" /> }
-
+        { (questionNumber > magic4) && <Redirect to="/feedback" /> }
         {
           !isLoading && <Question
-            question={ question }
+            question={ questions[questionNumber] }
             handleClickNextButton={ this.handleClickNextButton }
           />
         }

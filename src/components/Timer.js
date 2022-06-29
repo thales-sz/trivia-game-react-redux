@@ -18,6 +18,8 @@ class Timer extends Component {
   timerFunc = () => {
     this.setState((prevState) => ({ timer: prevState.timer - 1 }), () => {
       const { timer } = this.state;
+      const { getTimer } = this.props;
+      getTimer(timer);
       if (timer === 0) {
         const { handleTimer } = this.props;
         clearInterval(this.myInterval);
@@ -26,15 +28,12 @@ class Timer extends Component {
     });
   }
 
-  clearTimer = () => {
-    // função que envia o valor do timer para o pai
-    clearInterval(this.myInterval);
-  }
-
   render() {
     const { timer } = this.state;
     const { answeredQuestion } = this.props;
-    if (answeredQuestion) this.clearTimer();
+    if (answeredQuestion) {
+      clearInterval(this.myInterval);
+    }
     return (
       <div>{timer}</div>
     );
@@ -44,6 +43,7 @@ class Timer extends Component {
 Timer.propTypes = {
   answeredQuestion: PropTypes.bool.isRequired,
   handleTimer: PropTypes.func.isRequired,
+  getTimer: PropTypes.func.isRequired,
 };
 
 export default Timer;

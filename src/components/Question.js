@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getPointsAction } from '../redux/actions';
 import style from './question.module.css';
 import Timer from './Timer';
 
@@ -7,6 +9,7 @@ class Question extends Component {
   state = {
     answers: [],
     answeredQuestion: false,
+    timer: 30,
   }
 
   componentDidMount() {
@@ -20,7 +23,33 @@ class Question extends Component {
       .sort(() => Math.random() - RANDOMIZER);
   }
 
-  handleClick = () => {
+  handleClick = ({ target }) => {
+    this.handleTimer();
+    const { question, dispatch } = this.props;
+    if (target.innerText === question.correct_answer) {
+      const { timer } = this.state;
+      const magic10 = 10;
+      const points = magic10 + (timer * this.checkDifficulty());
+      dispatch(getPointsAction(points));
+    }
+  }
+
+  checkDifficulty = () => {
+    const magic3 = 3;
+    const { question } = this.props;
+    switch (question.difficulty) {
+    case 'easy':
+      return 1;
+    case 'medium':
+      return 2;
+    case 'hard':
+      return magic3;
+    default:
+      return 0;
+    }
+  }
+
+  handleTimer = () => {
     this.setState({ answeredQuestion: true });
   }
 
@@ -28,18 +57,11 @@ class Question extends Component {
     currentAnswer === correctAnswer ? style.correct_answer : style.wrong_answer
   )
 
-  handleClickQuestions = () => {
-    const { handleClickNextButton, question } = this.props;
-    this.setState({
-      answeredQuestion: false,
-      answers: this.randomizeAnswers(question),
-    });
-    handleClickNextButton();
-  }
+  getTimer = (timer) => this.setState({ timer });
 
   render() {
     const { answeredQuestion, answers } = this.state;
-    const { question } = this.props;
+    const { question, handleClickNextButton } = this.props;
     const wrongAnswerMagicNumber = -1;
     let wrongAnswerCounter = wrongAnswerMagicNumber;
     return (
@@ -66,13 +88,17 @@ class Question extends Component {
             );
           })}
         </div>
-        <Timer handleTimer={ this.handleClick } answeredQuestion={ answeredQuestion } />
+        <Timer
+          handleTimer={ this.handleTimer }
+          answeredQuestion={ answeredQuestion }
+          getTimer={ this.getTimer }
+        />
         { answeredQuestion
           ? (
             <button
               type="button"
               data-testid="btn-next"
-              onClick={ this.handleClickQuestions }
+              onClick={ handleClickNextButton }
             >
               Next
             </button>) : null }
@@ -86,10 +112,12 @@ Question.propTypes = {
     category: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     question: PropTypes.string.isRequired,
+    difficulty: PropTypes.string.isRequired,
     correct_answer: PropTypes.string.isRequired,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,
+  dispatch: PropTypes.func.isRequired,
   handleClickNextButton: PropTypes.func.isRequired,
 };
 
-export default Question;
+export default connect()(Question);
