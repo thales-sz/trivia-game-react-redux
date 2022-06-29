@@ -24,21 +24,18 @@ class Login extends Component {
     this.verifyButton();
   }
 
-  handleSubmit = (e) => {
-    const { dispatch, history } = this.props;
+  handleSubmit = async (e) => {
     e.preventDefault();
+    const { dispatch, history } = this.props;
+    const userToken = await requestUserToken();
     dispatch(userAction(this.state));
+    localStorage.setItem('token', userToken.token);
     history.push('/game');
   }
 
-  handleButtonClick = async ({ target: { name } }) => {
+  handleButtonClick = () => {
     const { history } = this.props;
-    if (name === 'play') {
-      const userToken = await requestUserToken();
-      localStorage.setItem('token', userToken.token);
-    } else {
-      history.push('/settings');
-    }
+    history.push('/settings');
   }
 
   render() {
@@ -67,7 +64,6 @@ class Login extends Component {
             name="play"
             data-testid="btn-play"
             disabled={ isButtonDisabled }
-            onClick={ this.handleButtonClick }
           >
             PLAY
           </button>
