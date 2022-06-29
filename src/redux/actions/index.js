@@ -32,3 +32,11 @@ export const getProfileImageURLAction = (email) => (dispatch) => {
   const url = `https://www.gravatar.com/avatar/${hash}`;
   dispatch(sendProfileImageURL(url));
 };
+
+// action para somar pontos
+export const GET_POINTS = 'GET_POINTS';
+
+export const getPointsAction = (points) => ({
+  type: GET_POINTS,
+  payload: { points },
+});

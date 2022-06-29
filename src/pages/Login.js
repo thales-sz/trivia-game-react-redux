@@ -20,8 +20,7 @@ class Login extends Component {
   }
 
   handleChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value });
-    this.verifyButton();
+    this.setState({ [name]: value }, this.verifyButton);
   }
 
   handleSubmit = async (e) => {
