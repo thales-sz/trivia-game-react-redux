@@ -12,7 +12,7 @@ class Quiz extends Component {
   componentDidMount = async () => {
     const ERROR = 3;
     console.log(localStorage.getItem('token'));
-    const { token } = JSON.parse(localStorage.getItem('token'));
+    const token = localStorage.getItem('token');
     console.log(token);
     const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
     const questions = await response.json();
@@ -46,19 +46,21 @@ class Quiz extends Component {
                   <div>
                     <h2 data-testid="question-category">{question.category}</h2>
                     <p data-testid="question-text">{question.question}</p>
-                    {answers.map((answer) => {
-                      wrongAnswerCounter += 1;
-                      return (
-                        <button
-                          type="button"
-                          key={ answer }
-                          data-testid={ answer === question.correct_answer
-                            ? 'correct-answer' : `wrong-answer-${wrongAnswerCounter}` }
-                        >
-                          {answer}
-                        </button>
-                      );
-                    })}
+                    <div data-testid="answer-options">
+                      {answers.map((answer) => {
+                        wrongAnswerCounter += 1;
+                        return (
+                          <button
+                            type="button"
+                            key={ answer }
+                            data-testid={ answer === question.correct_answer
+                              ? 'correct-answer' : `wrong-answer-${wrongAnswerCounter}` }
+                          >
+                            {answer}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
       </div>
