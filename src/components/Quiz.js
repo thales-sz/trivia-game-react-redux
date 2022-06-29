@@ -23,13 +23,27 @@ class Quiz extends Component {
     }
   }
 
+  handleClickNextButton = () => {
+    const { questionNumber } = this.state;
+    this.setState({
+      questionNumber: questionNumber + 1,
+    });
+  }
+
   render() {
     const { error, questions, questionNumber, isLoading } = this.state;
     const question = questions[questionNumber];
     return (
       <div>
         { error && <Redirect to="/" /> }
-        { !isLoading && <Question question={ question } /> }
+
+        {
+          !isLoading && <Question
+            question={ question }
+            handleClickNextButton={ this.handleClickNextButton }
+          />
+        }
+
       </div>
     );
   }

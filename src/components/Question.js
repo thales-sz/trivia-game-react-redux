@@ -27,6 +27,15 @@ class Question extends Component {
     currentAnswer === correctAnswer ? style.correct_answer : style.wrong_answer
   )
 
+  handleClickQuestions = () => {
+    const { handleClickNextButton, question } = this.props;
+    this.setState({
+      answeredQuestion: false,
+      answers: this.randomizeAnswers(question),
+    });
+    handleClickNextButton();
+  }
+
   render() {
     const { answeredQuestion, answers } = this.state;
     const { question } = this.props;
@@ -55,6 +64,15 @@ class Question extends Component {
             );
           })}
         </div>
+        { answeredQuestion
+          ? (
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.handleClickQuestions }
+            >
+              Next
+            </button>) : null }
       </>
     );
   }
@@ -68,6 +86,7 @@ Question.propTypes = {
     correct_answer: PropTypes.string.isRequired,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string.isRequired),
   }).isRequired,
+  handleClickNextButton: PropTypes.func.isRequired,
 };
 
 export default Question;
