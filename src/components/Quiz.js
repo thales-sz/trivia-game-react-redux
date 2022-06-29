@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import Question from './Question';
 
 class Quiz extends Component {
   state = {
@@ -11,9 +12,7 @@ class Quiz extends Component {
 
   componentDidMount = async () => {
     const ERROR = 3;
-    console.log(localStorage.getItem('token'));
     const token = localStorage.getItem('token');
-    console.log(token);
     const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
     const questions = await response.json();
     if (questions.response_code === ERROR) {
@@ -24,45 +23,13 @@ class Quiz extends Component {
     }
   }
 
-  randomizeAnswers = (question) => {
-    const RANDOMIZER = 0.5;
-    return [...question.incorrect_answers, question.correct_answer]
-      .sort(() => Math.random() - RANDOMIZER);
-  }
-
   render() {
     const { error, questions, questionNumber, isLoading } = this.state;
     const question = questions[questionNumber];
-    const answers = !isLoading && this.randomizeAnswers(question);
-    const wrongAnswerMagicNumber = -1;
-    let wrongAnswerCounter = wrongAnswerMagicNumber;
     return (
       <div>
-        {
-          error && <Redirect to="/" />
-        }
-        { !isLoading
-                && (
-                  <div>
-                    <h2 data-testid="question-category">{question.category}</h2>
-                    <p data-testid="question-text">{question.question}</p>
-                    <div data-testid="answer-options">
-                      {answers.map((answer) => {
-                        wrongAnswerCounter += 1;
-                        return (
-                          <button
-                            type="button"
-                            key={ answer }
-                            data-testid={ answer === question.correct_answer
-                              ? 'correct-answer' : `wrong-answer-${wrongAnswerCounter}` }
-                          >
-                            {answer}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
+        { error && <Redirect to="/" /> }
+        { !isLoading && <Question question={ question } /> }
       </div>
     );
   }
