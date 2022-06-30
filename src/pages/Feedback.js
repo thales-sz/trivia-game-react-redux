@@ -4,9 +4,14 @@ import PropTypes from 'prop-types';
 import GameHeader from '../components/GameHeader';
 
 class Feedback extends Component {
-  handleButtonCLick = () => {
+  handleButtonPlayAgain = () => {
     const { history } = this.props;
     history.push('/');
+  }
+
+  handleButtonRanking = () => {
+    const { history } = this.props;
+    history.push('/ranking');
   }
 
   render() {
@@ -33,10 +38,17 @@ class Feedback extends Component {
         )}
         <button
           type="button"
-          data-testid="btn-play-again"
-          onClick={ this.handleButtonCLick }
+          data-testid="btn-ranking"
+          onClick={ this.handleButtonRanking }
         >
-          PLAY AGAIN
+          VER RANKING
+        </button>
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ this.handleButtonPlayAgain }
+        >
+          JOGAR NOVAMENTE
         </button>
       </div>
     );
