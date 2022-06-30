@@ -67,7 +67,7 @@ class Question extends Component {
     return (
       <>
         <h2 data-testid="question-category">{question.category}</h2>
-        <p data-testid="question-text">{question.question}</p>
+        <h4 data-testid="question-text">{question.question}</h4>
         <div data-testid="answer-options">
           {answers.map((answer) => {
             wrongAnswerCounter += 1;

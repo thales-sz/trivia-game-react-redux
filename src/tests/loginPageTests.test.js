@@ -35,7 +35,7 @@ describe('Testa página de login', () => {
     userEvent.type(inputName, 'NomeGenerico');
     userEvent.type(inputEmail, 'email@email.com');
     userEvent.click(playBtn);
-    const playerName = await screen.findByRole('heading', { name: /NomeGenerico/i });
+    const playerName = await screen.findByRole('heading', { name: /NomeGenerico/i, level: 2 });
     expect(playerName).toBeInTheDocument();
     expect(history.location.pathname).toBe("/game");
   })
