@@ -1,9 +1,10 @@
 import React from 'react';
-import { screen, render } from '@testing-library/react';
+import { screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import App from '../App.js';
 
+afterEach(cleanup);
 
 describe('Testa página de login', () => {
   test('Verifica se existe um botão de configuração', () => {
@@ -34,7 +35,7 @@ describe('Testa página de login', () => {
     userEvent.type(inputName, 'NomeGenerico');
     userEvent.type(inputEmail, 'email@email.com');
     userEvent.click(playBtn);
-    const playerName = await screen.findByTestId('header-player-name');
+    const playerName = await screen.findByRole('heading', { name: /NomeGenerico/i });
     expect(playerName).toBeInTheDocument();
     expect(history.location.pathname).toBe("/game");
   })
