@@ -10,9 +10,21 @@ class Feedback extends Component {
       <div>
         <GameHeader />
         { player.assertions > 2 ? (
-          <h2 data-testid="feedback-text">Well Done!</h2>
+          <>
+            <h2 data-testid="feedback-text">Well Done!</h2>
+            <h3>Pontos Totais:</h3>
+            <div data-testid="feedback-total-score">{ player.score }</div>
+            <h3>Número de acertos:</h3>
+            <div data-testid="feedback-total-question">{ player.assertions }</div>
+          </>
         ) : (
-          <h2 data-testid="feedback-text">Could be better...</h2>
+          <>
+            <h2 data-testid="feedback-text">Could be better...</h2>
+            <h3>Pontos Totais:</h3>
+            <div data-testid="feedback-total-score">{ player.score }</div>
+            <h3>Número de acertos:</h3>
+            <div data-testid="feedback-total-question">{ player.assertions }</div>
+          </>
         )}
       </div>
     );
