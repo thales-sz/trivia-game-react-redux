@@ -2,10 +2,30 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import GameHeader from '../components/GameHeader';
+import { resetPlayerAction } from '../redux/actions';
 
 class Feedback extends Component {
+  componentDidMount = () => {
+    const { globalState: { player } } = this.props;
+    // adicionar em um array com o objeto do novo jogador
+    const oldRanking = JSON.parse(localStorage.getItem('ranking'));
+    const newPlayer = {
+      name: player.name,
+      score: player.score,
+      picture: player.profileImage,
+    };
+    if (oldRanking) {
+      const newRanking = [...oldRanking, newPlayer];
+      localStorage.setItem('ranking', JSON.stringify(newRanking));
+    } else {
+      localStorage.setItem('ranking', JSON.stringify([newPlayer]));
+    }
+    console.log(localStorage.getItem('ranking'));
+  }
+
   handleButtonPlayAgain = () => {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
+    dispatch(resetPlayerAction());
     history.push('/');
   }
 

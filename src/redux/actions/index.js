@@ -40,3 +40,10 @@ export const getPointsAction = (points) => ({
   type: GET_POINTS,
   payload: { points },
 });
+
+// action para resetar a pontuação para o novo jogador
+export const RESET_PLAYER = 'RESET_PLAYER';
+
+export const resetPlayerAction = () => ({
+  type: RESET_PLAYER,
+});
