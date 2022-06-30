@@ -28,7 +28,7 @@ afterEach(cleanup);
 
 describe('Testes da pagina de feedbakc', () => {
   test('Verifica o funcionamento até a pagina de feedbakc', () => {
-    const { history } = renderWithRouterAndRedux(<App/>, smartState, '/feedback');
+    renderWithRouterAndRedux(<App/>, smartState, '/feedback');
     const headerImg = screen.getByRole('img', {name: /imagem de perfil/i});
     expect(headerImg).toBeInTheDocument()
     const userMsg = screen.getByRole('heading', {name: /well done!/i})
