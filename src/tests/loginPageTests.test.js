@@ -39,10 +39,10 @@ describe('Testa página de login', () => {
     expect(history.location.pathname).toBe("/game");
   })
   test('Verifica o botão de configuração', () => {
-    renderWithRouterAndRedux(<App/>)
+    const { history } = renderWithRouterAndRedux(<App/>)
     const settingsBtn = screen.getByRole('button', { name: /configurações/i });
     expect(settingsBtn).toBeInTheDocument();
     userEvent.click(settingsBtn);
-    expect(window.location.pathname).toBe('/');
+    expect(history.location.pathname).toBe('/settings');
   })
 })
