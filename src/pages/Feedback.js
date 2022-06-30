@@ -26,6 +26,7 @@ class Feedback extends Component {
             <div data-testid="feedback-total-question">{ player.assertions }</div>
           </>
         )}
+        <button></button>
       </div>
     );
   }
