@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import App from '../App.js';
@@ -24,6 +24,8 @@ const dumbState = {
   }
 }
 
+afterEach(cleanup);
+
 describe('Testes da pagina de feedbakc', () => {
   test('Verifica o funcionamento até a pagina de feedbakc', () => {
     const { history } = renderWithRouterAndRedux(<App/>, smartState, '/feedback');
@@ -38,6 +40,10 @@ describe('Testes da pagina de feedbakc', () => {
     expect(buttonRanking).toBeInTheDocument();
     userEvent.click(buttonRanking);
     expect(history.location.pathname).toBe('/ranking');
+    const buttonPlayRanking = screen.getByRole('button', { name: /jogar novamente/i})
+    expect(buttonPlayRanking).toBeInTheDocument()
+    userEvent.click(buttonPlayRanking);
+    expect(history.location.pathname).toBe('/');
   })
   test('Verifica o funcionamento do botão JOGAR NOVAMENTE', () => {
     const { history } = renderWithRouterAndRedux(<App/>, dumbState, '/feedback');
