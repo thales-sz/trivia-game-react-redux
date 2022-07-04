@@ -28,7 +28,7 @@ class Ranking extends Component {
         <ol>
           {
             players.map((e, i) => (
-              <li key={ e.index }>
+              <li key={ i }>
                 <p data-testid={ `player-name-${i}` }>{e.name}</p>
                 <p data-testid={ `player-score-${i}` }>{e.score}</p>
                 <img src={ e.picture } alt={ e.name } />

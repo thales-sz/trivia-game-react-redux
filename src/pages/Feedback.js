@@ -20,7 +20,6 @@ class Feedback extends Component {
     } else {
       localStorage.setItem('ranking', JSON.stringify([newPlayer]));
     }
-    console.log(localStorage.getItem('ranking'));
   }
 
   handleButtonPlayAgain = () => {

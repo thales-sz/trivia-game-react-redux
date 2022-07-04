@@ -6,16 +6,16 @@ import style from './question.module.css';
 import Timer from './Timer';
 
 class Question extends Component {
-  state = {
-    answers: [],
-    answeredQuestion: false,
-    timer: 30,
-  }
+    state = {
+      answers: [],
+      answeredQuestion: false,
+      timer: 30,
+    };
 
-  componentDidMount() {
-    const { question } = this.props;
-    this.setState({ answers: this.randomizeAnswers(question) });
-  }
+    componentDidMount() {
+      const { question } = this.props;
+      this.setState({ answers: this.randomizeAnswers(question) });
+    }
 
   randomizeAnswers = (question) => {
     const RANDOMIZER = 0.5;
@@ -26,7 +26,7 @@ class Question extends Component {
   handleClick = ({ target }) => {
     this.handleTimer();
     const { question, dispatch } = this.props;
-    if (target.innerText === question.correct_answer) {
+    if (target.innerHTML === question.correct_answer) {
       const { timer } = this.state;
       const magic10 = 10;
       const points = magic10 + (timer * this.checkDifficulty());
@@ -67,7 +67,7 @@ class Question extends Component {
     return (
       <>
         <h2 data-testid="question-category">{question.category}</h2>
-        <p data-testid="question-text">{question.question}</p>
+        <h4 data-testid="question-text">{question.question}</h4>
         <div data-testid="answer-options">
           {answers.map((answer) => {
             wrongAnswerCounter += 1;
