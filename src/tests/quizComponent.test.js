@@ -1,8 +1,9 @@
 import React from 'react';
-import { cleanup, screen } from '@testing-library/react';
+import { cleanup, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import App from '../App';
+import Question from '../components/Question';
 
 const state = {
   player: { 
@@ -47,7 +48,7 @@ const SUCCESS = {
       {
         "category":"Entertainment: Video Games",
         "type":"multiple",
-        "difficulty":"easy",
+        "difficulty":"medium",
         "question":"What is the first weapon you acquire in Half-Life?",
         "correct_answer":"A crowbar",
         "incorrect_answers":[
@@ -69,7 +70,7 @@ const SUCCESS = {
       {
         "category":"Entertainment: Video Games",
         "type":"multiple",
-        "difficulty":"easy",
+        "difficulty":"SEM DIFICULDADE",
         "question":"What is the first weapon you acquire in Half-Life?",
         "correct_answer":"A crowbar",
         "incorrect_answers":[
@@ -117,8 +118,8 @@ describe('Testa o componente Quiz', () => {
     const secondQuestion = await screen.findByRole('heading', {name: /Sentry rocket damage/});
     expect(secondQuestion).toBeInTheDocument()
 
-    const correctAnswer2 = screen.getByTestId('correct-answer');
-    userEvent.click(correctAnswer2);
+    const wrongAnswer2 = screen.getByTestId(/wrong/);
+    userEvent.click(wrongAnswer2);
 
     const nextButton2 = screen.getByTestId('btn-next');
     userEvent.click(nextButton2);
@@ -145,4 +146,73 @@ describe('Testa o componente Quiz', () => {
     expect(feedbackText).toBeInTheDocument();
     expect(history.location.pathname).toBe('/feedback');
   })
+  test('Verifica o timer', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValue(SUCCESS),
+    });
+
+    renderWithRouterAndRedux(<App/>, state, '/game');
+    jest.setTimeout(40000);
+
+    expect(global.fetch).toBeCalled();
+    const categoryText = await screen.findByTestId('question-category');
+    expect(categoryText).toBeInTheDocument();
+
+    await waitFor(() => screen.findByTestId('btn-next'), {timeout:35000});
+    const nextButton = await screen.findByTestId('btn-next');
+    expect(nextButton).toBeInTheDocument();
+  })
+  test('Verifica a dificuldade das questões', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValue(SUCCESS),
+    });
+
+    renderWithRouterAndRedux(<App/>, state, '/game');
+
+    expect(global.fetch).toBeCalled();
+    const categoryText = await screen.findByTestId('question-category');
+    expect(categoryText).toBeInTheDocument();
+
+    // Acerta uma questão fácil
+    const correctAnswer = screen.getByTestId('correct-answer');
+    userEvent.click(correctAnswer);
+
+    const points = screen.getByTestId('header-score');
+    expect(points.innerHTML).toBe('40');
+
+    const nextButton = screen.getByTestId('btn-next');
+    userEvent.click(nextButton);
+
+    // Acerta uma questão difícil
+    const secondQuestion = await screen.findByRole('heading', {name: /Sentry rocket damage/});
+    expect(secondQuestion).toBeInTheDocument()
+
+    const correctAnswer2 = screen.getByTestId('correct-answer');
+    userEvent.click(correctAnswer2);
+
+    const points2 = screen.getByTestId('header-score');
+    expect(points2.innerHTML).toBe('140');
+
+    const nextButton2 = screen.getByTestId('btn-next');
+    userEvent.click(nextButton2);
+
+    // Acerta uma questão media
+    const correctAnswer3 = await screen.findByTestId('correct-answer');
+    userEvent.click(correctAnswer3);
+
+    const points3 = screen.getByTestId('header-score');
+    expect(points3.innerHTML).toBe('210');
+
+    const nextButton3 = screen.getByTestId('btn-next');
+    userEvent.click(nextButton3);
+
+    // Erra uma questão sem dificuldade
+    const correctAnswer4 = await screen.findByTestId('correct-answer');
+    userEvent.click(correctAnswer4);
+
+    const points4 = screen.getByTestId('header-score');
+    expect(points4.innerHTML).toBe('310');
+})
 })
