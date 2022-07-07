@@ -1,4 +1,4 @@
-.question-container {
+.feedback-bad, .feedback-good {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,30 +9,20 @@
   width: 50%;
   margin: 50px auto;
   border-radius: 15px;
-  height: 450px;
+  height: 400px;
 }
 
-.timer {
-  font-size: 20px;
-}
-
-.answer-options {
-  display: flex;
-  flex-direction: column;
-}
-
-#option {
-  color: black;
-  width: 400px;
-  padding: 5px;
-  margin: 8px;
-  border-radius: 10px;
-}
-
-.next-btn {
-  color: black;
+.rank-btn, .playagain-btn {
   width: 200px;
+  border: none;
   padding: 5px;
-  margin: 8px;
+  margin: 10px auto;
   border-radius: 10px;
+  transition: transform 300ms;
+}
+
+.rank-btn:hover, .playagain-btn:hover {
+  cursor: pointer;
+  transform: scale(1.08);
+  box-shadow: 1px 3px 10px 0 rgb(10, 10, 10);
 }

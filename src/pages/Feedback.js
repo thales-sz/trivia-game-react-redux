@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import GameHeader from '../components/GameHeader';
 import { resetPlayerAction } from '../redux/actions';
+import './Feedback.css';
 
 class Feedback extends Component {
   componentDidMount = () => {
@@ -39,36 +40,54 @@ class Feedback extends Component {
       <div>
         <GameHeader />
         { player.assertions > 2 ? (
-          <>
+          <div className="feedback-good">
             <h2 data-testid="feedback-text">Well Done!</h2>
             <h3>Pontos Totais:</h3>
             <div data-testid="feedback-total-score">{ player.score }</div>
             <h3>Número de acertos:</h3>
             <div data-testid="feedback-total-question">{ player.assertions }</div>
-          </>
+            <button
+              className="rank-btn"
+              type="button"
+              data-testid="btn-ranking"
+              onClick={ this.handleButtonRanking }
+            >
+              VER RANKING
+            </button>
+            <button
+              className="playagain-btn"
+              type="button"
+              data-testid="btn-play-again"
+              onClick={ this.handleButtonPlayAgain }
+            >
+              JOGAR NOVAMENTE
+            </button>
+          </div>
         ) : (
-          <>
+          <div className="feedback-bad">
             <h2 data-testid="feedback-text">Could be better...</h2>
             <h3>Pontos Totais:</h3>
             <div data-testid="feedback-total-score">{ player.score }</div>
             <h3>Número de acertos:</h3>
             <div data-testid="feedback-total-question">{ player.assertions }</div>
-          </>
+            <button
+              className="rank-btn"
+              type="button"
+              data-testid="btn-ranking"
+              onClick={ this.handleButtonRanking }
+            >
+              VER RANKING
+            </button>
+            <button
+              className="playagain-btn"
+              type="button"
+              data-testid="btn-play-again"
+              onClick={ this.handleButtonPlayAgain }
+            >
+              JOGAR NOVAMENTE
+            </button>
+          </div>
         )}
-        <button
-          type="button"
-          data-testid="btn-ranking"
-          onClick={ this.handleButtonRanking }
-        >
-          VER RANKING
-        </button>
-        <button
-          type="button"
-          data-testid="btn-play-again"
-          onClick={ this.handleButtonPlayAgain }
-        >
-          JOGAR NOVAMENTE
-        </button>
       </div>
     );
   }
