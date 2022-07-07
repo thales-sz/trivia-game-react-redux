@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { userAction, requestUserToken } from '../redux/actions';
+import './Login.css';
 
 class Login extends Component {
   state = {
@@ -41,9 +42,11 @@ class Login extends Component {
     const { inputName, inputEmail, isButtonDisabled } = this.state;
     return (
       <section>
-        <form onSubmit={ this.handleSubmit }>
+        <form onSubmit={ this.handleSubmit } className="login-form">
+          <img src="https://diariodeumquimicodigital.files.wordpress.com/2017/07/show_do_milhc3a3o_logo.gif" alt="logo" width="200px" />
           <input
             type="text"
+            className="form-name"
             data-testid="input-player-name"
             placeholder="Nome"
             name="inputName"
@@ -52,6 +55,7 @@ class Login extends Component {
           />
           <input
             type="email"
+            className="form-email"
             data-testid="input-gravatar-email"
             placeholder="Email"
             name="inputEmail"
@@ -60,6 +64,7 @@ class Login extends Component {
           />
           <button
             type="submit"
+            className="form-btn-play"
             name="play"
             data-testid="btn-play"
             disabled={ isButtonDisabled }
@@ -68,12 +73,14 @@ class Login extends Component {
           </button>
           <button
             type="button"
+            className="form-btn-config"
             name="settings"
             data-testid="btn-settings"
             onClick={ this.handleButtonClick }
           >
             CONFIGURAÇÕES
           </button>
+          <img src="https://static.sbt.com.br/media/playlist/20100419153609/20150209162622/tn/20190405173603.jpg" alt="silvio" width="250px" />
         </form>
       </section>
     );

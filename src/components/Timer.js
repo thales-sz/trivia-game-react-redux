@@ -35,7 +35,11 @@ class Timer extends Component {
       clearInterval(this.myInterval);
     }
     return (
-      <div>{timer}</div>
+      <div className="timer">
+        Tempo restante:
+        {' '}
+        {timer}
+      </div>
     );
   }
 }

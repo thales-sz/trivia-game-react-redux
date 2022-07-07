@@ -1,0 +1,28 @@
+.feedback-bad, .feedback-good {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(135, 248, 210);
+  border: 2px solid rgb(10, 10, 10);
+  box-shadow: 5px 5px 20px black;
+  color: black;
+  width: 50%;
+  margin: 50px auto;
+  border-radius: 15px;
+  height: 400px;
+}
+
+.rank-btn, .playagain-btn {
+  width: 200px;
+  border: none;
+  padding: 5px;
+  margin: 10px auto;
+  border-radius: 10px;
+  transition: transform 300ms;
+}
+
+.rank-btn:hover, .playagain-btn:hover {
+  cursor: pointer;
+  transform: scale(1.08);
+  box-shadow: 1px 3px 10px 0 rgb(10, 10, 10);
+}

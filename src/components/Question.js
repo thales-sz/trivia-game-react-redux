@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import { getPointsAction } from '../redux/actions';
 import style from './question.module.css';
 import Timer from './Timer';
+import './Question.css';
+
+const correctAnswerAudio = new Audio('https://memes.casa/audios/silvio-santos-certa-resposta.mp3');
+const wrongAnswerAudio = new Audio('https://memes.casa/audios/silvio-santos-que-pena-voce-errou.mp3');
 
 class Question extends Component {
     state = {
@@ -27,10 +31,13 @@ class Question extends Component {
     this.handleTimer();
     const { question, dispatch } = this.props;
     if (target.innerHTML === question.correct_answer) {
+      correctAnswerAudio.play();
       const { timer } = this.state;
       const magic10 = 10;
       const points = magic10 + (timer * this.checkDifficulty());
       dispatch(getPointsAction(points));
+    } else {
+      wrongAnswerAudio.play();
     }
   }
 
@@ -65,15 +72,21 @@ class Question extends Component {
     const wrongAnswerMagicNumber = -1;
     let wrongAnswerCounter = wrongAnswerMagicNumber;
     return (
-      <>
+      <div className="question-container">
         <h2 data-testid="question-category">{question.category}</h2>
+        <Timer
+          handleTimer={ this.handleTimer }
+          answeredQuestion={ answeredQuestion }
+          getTimer={ this.getTimer }
+        />
         <h4 data-testid="question-text">{question.question}</h4>
-        <div data-testid="answer-options">
+        <div data-testid="answer-options" className="answer-options">
           {answers.map((answer) => {
             wrongAnswerCounter += 1;
             return (
               <button
                 type="button"
+                id="option"
                 key={ answer }
                 className={ answeredQuestion
                   ? this.verifyCorrectAnswer(answer, question.correct_answer)
@@ -88,21 +101,17 @@ class Question extends Component {
             );
           })}
         </div>
-        <Timer
-          handleTimer={ this.handleTimer }
-          answeredQuestion={ answeredQuestion }
-          getTimer={ this.getTimer }
-        />
         { answeredQuestion
           ? (
             <button
+              className="next-btn"
               type="button"
               data-testid="btn-next"
               onClick={ handleClickNextButton }
             >
               Next
             </button>) : null }
-      </>
+      </div>
     );
   }
 }
