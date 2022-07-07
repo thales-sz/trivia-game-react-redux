@@ -1,0 +1,30 @@
+.GameHeader {
+  background-color: rgb(135, 248, 210);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: rgb(19, 16, 16);
+  display: flex;
+  padding: 0px 5px 5px 5px;
+  box-shadow: 2px 2px 2px black;
+}
+
+.userImg {
+  width: 60px;
+}
+
+.score-container{
+  display: flex;
+}
+
+#score {
+  margin-left: 5px;
+}
+
+.user-container {
+  display: flex;
+}
+
+#username {
+  margin-left: 5px;
+}

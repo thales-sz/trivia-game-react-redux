@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getPointsAction } from '../redux/actions';
 import style from './question.module.css';
 import Timer from './Timer';
+import './Question.css';
 
 class Question extends Component {
     state = {
@@ -65,7 +66,7 @@ class Question extends Component {
     const wrongAnswerMagicNumber = -1;
     let wrongAnswerCounter = wrongAnswerMagicNumber;
     return (
-      <>
+      <div className="question-container">
         <h2 data-testid="question-category">{question.category}</h2>
         <h4 data-testid="question-text">{question.question}</h4>
         <div data-testid="answer-options">
@@ -102,7 +103,7 @@ class Question extends Component {
             >
               Next
             </button>) : null }
-      </>
+      </div>
     );
   }
 }

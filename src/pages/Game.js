@@ -5,7 +5,7 @@ import Quiz from '../components/Quiz';
 class Game extends Component {
   render() {
     return (
-      <div>
+      <div className="Game">
         <GameHeader />
         <Quiz />
       </div>
